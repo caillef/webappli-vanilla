@@ -69,18 +69,16 @@ let accelerometer = new Accelerometer({
     frequency: 60
 });
 
-let acceleValue = {
-    x: 0,
-    y: 0,
-    z: 0
-}
 accelerometer.addEventListener('reading', e => {
-    acceleValue.x += accelerometer.x
-    acceleValue.y += accelerometer.y
-    acceleValue.z += accelerometer.z
-    document.getElementById("accele").innerHTML = Math.floor(acceleValue.x) + "<br>" + Math.floor(acceleValue.y) + "<br>" + Math.floor(acceleValue.z)
+    document.getElementById("accele").innerHTML = Math.floor(accelerometer.x) + "<br>" + Math.floor(accelerometer.y) + "<br>" + Math.floor(accelerometer.z)
 });
 accelerometer.start();
+
+let magSensor = new Magnetometer({frequency: 60});
+magSensor.addEventListener('reading', e => {
+    document.getElementById("accele").innerHTML = Math.floor(magSensor.x) + "<br>" + Math.floor(magSensor.y) + "<br>" + Math.floor(magSensor.z)
+});
+magSensor.start();
 
 
 setInterval(gameLoop, 1000 / 60)
