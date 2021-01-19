@@ -23,35 +23,40 @@ let rect2 = rect_create(100, 20, 30, 50, 'green', 3, 5)
 
 let gameobjects = [
     rect,
-    rect2
+    // rect2
 ]
 
 let frame = 0
 
+const colors = ['blue', 'red', 'yellow']
+
 function gameLoop() {
-    ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // ctx.fillStyle = 'white';
+    // ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     for (const obj of gameobjects)
         obj.draw()
 
     frame += 1
-    if (frame % 60 == 0) {
-        gameobjects.push(rect_create(30, 20, 100, 100, 'blue', 3, 8))
+    if (frame % 30 == 0) {
+        gameobjects.push(rect_create(30, 20, 100, 100, colors[Math.floor(Math.random() * colors.length)], 3, 8))
     }
 }
 
 function rect_draw() {
     // ctx.fillRect(this.x, this.y, this.w, this.h);
-
-    print("plop")
     ctx.beginPath()
     ctx.fillStyle = this.color;
     ctx.arc(this.x, this.y, 20, 0, 2 * Math.PI);
-    ctx.endPath()
+    ctx.fill();
+    ctx.closePath()
 
-    this.x += this.dx
-    this.y += this.dy
+    if (!this.offset) this.offset = frame
+    this.x = canvas.width / 2 + Math.cos(frame / 15 + this.offset) * (canvas.width / 10) * this.space
+    this.y = canvas.height / 2 + Math.sin(frame / 15 + this.offset) * (canvas.height / 10) * this.space
+    this.space = this.space == undefined ? 1 : (this.space + 0.01)
+    // this.x += this.dx
+    // this.y += this.dy
 }
 
 let gyroscope = new Gyroscope({
@@ -80,5 +85,4 @@ accelerometer.addEventListener('reading', e => {
 });
 accelerometer.start();
 
-
-setInterval(gameLoop, 1000 / 60)
+// setInterval(gameLoop, 1000 / 60)
