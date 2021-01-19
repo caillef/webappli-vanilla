@@ -1,88 +1,100 @@
 const canvas = document.getElementById('canvasTest');
 const ctx = canvas.getContext('2d');
 
-// canvas.width = document.documentElement.clientWidth || document.body.clientWidth;
-// canvas.height = document.documentElement.clientHeight || document.body.clientHeight;
+const colors = ['#ccd5ae', '#e9edc9', '#fefae0', '#faedcd', '#d4a373']
 
-function rect_create(x, y, w, h, color, dx, dy) {
+canvas.width = document.documentElement.clientWidth || document.body.clientWidth;
+canvas.height = document.documentElement.clientHeight || document.body.clientHeight;
+
+const gameobjects = []
+
+function init() {
+    for (let i = 0; i < 0; i++) {
+        const x = Math.random() * canvas.width
+        const y = Math.random() * canvas.height
+        const r = Math.random() * 100 + 50
+        const color = colors[Math.floor(Math.random() * colors.length)]
+        gameobjects.push(circle_create(x, y, r, color, 3, 8))
+    }
+}
+
+function circle_create(x, y, r, color, dx, dy) {
     let obj = {
         x: x,
         y: y,
-        w: w,
-        h: h,
+        r: r,
         color: color,
         dx: dx,
         dy: dy,
-        draw: rect_draw
+        offset: Math.random() * Math.PI * 2
     }
     return obj
 }
 
-let rect = rect_create(10, 20, 30, 50, 'red', 3, 5)
-let rect2 = rect_create(100, 20, 30, 50, 'green', 3, 5)
-
-let gameobjects = [
-    rect,
-    // rect2
-]
-
 let frame = 0
-
-const colors = ['blue', 'red', 'yellow']
-
 function gameLoop() {
     // ctx.fillStyle = 'white';
     // ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     for (const obj of gameobjects)
-        obj.draw()
-
+        circle_draw(obj)
     frame += 1
-    if (frame % 30 == 0) {
-        gameobjects.push(rect_create(30, 20, 100, 100, colors[Math.floor(Math.random() * colors.length)], 3, 8))
-    }
 }
 
-function rect_draw() {
-    // ctx.fillRect(this.x, this.y, this.w, this.h);
+function circle_draw(obj) {
     ctx.beginPath()
-    ctx.fillStyle = this.color;
-    ctx.arc(this.x, this.y, 20, 0, 2 * Math.PI);
+    ctx.fillStyle = obj.color;
+    ctx.lineWidth = 10
+    ctx.strokeStyle = 'black'
+    ctx.arc(obj.x, obj.y, obj.r, obj.offset + frame / 30, obj.offset + Math.PI + frame / 30);
+    ctx.stroke();
     ctx.fill();
+    obj.x += Math.cos(frame/30) * 20
+    obj.y += Math.sin(frame/30) * 7
     ctx.closePath()
-
-    if (!this.offset) this.offset = frame
-    this.x = canvas.width / 2 + Math.cos(frame / 15 + this.offset) * (canvas.width / 10) * this.space
-    this.y = canvas.height / 2 + Math.sin(frame / 15 + this.offset) * (canvas.height / 10) * this.space
-    this.space = this.space == undefined ? 1 : (this.space + 0.01)
-    // this.x += this.dx
-    // this.y += this.dy
 }
 
-let gyroscope = new Gyroscope({
-    frequency: 60
-});
+function handleStart(evt) {
+    for (const obj of gameobjects)
+        obj.x += 10
 
-let gyroValue = {
-    x: 0,
-    y: 0,
-    z: 0
-}
-gyroscope.addEventListener('reading', e => {
-    gyroValue.x += gyroscope.x
-    gyroValue.y += gyroscope.y
-    gyroValue.z += gyroscope.z
-    document.getElementById("gyro").innerHTML = Math.floor(gyroValue.x) + "<br>" + Math.floor(gyroValue.y) + "<br>" + Math.floor(gyroValue.z)
-});
-gyroscope.start();
+    const touches = evt.changedTouches;
+    for (var i = 0; i < touches.length; i++) {
+        const x = touches[i].pageX
+        const y = touches[i].pageY
+        const r = 50
+        const color = colors[Math.floor(Math.random() * colors.length)]
+        gameobjects.push(circle_create(x, y, r, color))
+    }
+  }
 
-let accelerometer = new Accelerometer({
-    frequency: 60
-});
+init()
+setInterval(gameLoop, 1000 / 60)
 
-accelerometer.addEventListener('reading', e => {
-    document.getElementById("accele").innerHTML = Math.floor(accelerometer.x) + "<br>" + Math.floor(accelerometer.y) + "<br>" + Math.floor(accelerometer.z)
-});
-accelerometer.start();
 
-// setInterval(gameLoop, 1000 / 60)
+
+// let gyroscope = new Gyroscope({
+//     frequency: 60
+// });
+
+// let gyroValue = {
+//     x: 0,
+//     y: 0,
+//     z: 0
+// }
+// gyroscope.addEventListener('reading', e => {
+//     gyroValue.x += gyroscope.x
+//     gyroValue.y += gyroscope.y
+//     gyroValue.z += gyroscope.z
+//     document.getElementById("gyro").innerHTML = Math.floor(gyroValue.x) + "<br>" + Math.floor(gyroValue.y) + "<br>" + Math.floor(gyroValue.z)
+// });
+// gyroscope.start();
+
+// let accelerometer = new Accelerometer({
+//     frequency: 60
+// });
+
+// accelerometer.addEventListener('reading', e => {
+//     document.getElementById("accele").innerHTML = Math.floor(accelerometer.x) + "<br>" + Math.floor(accelerometer.y) + "<br>" + Math.floor(accelerometer.z)
+// });
+// accelerometer.start();
