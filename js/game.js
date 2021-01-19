@@ -65,9 +65,9 @@ gyroscope.addEventListener('reading', e => {
     gyroValue.x += gyroscope.x
     gyroValue.y += gyroscope.y
     gyroValue.z += gyroscope.z
-    document.getElementById("pos").textContent = gyroValue.x + " " + gyroValue.y + " " + gyroValue.z
+    document.getElementById("pos").innerHTML = gyroValue.x + " " + gyroValue.y + " " + gyroValue.z
     gameLoop()
 });
 gyroscope.start();
 
-setInterval(gameLoop, 1000 / 60)
+// setInterval(gameLoop, 1000 / 60)
