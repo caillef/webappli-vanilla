@@ -1,8 +1,8 @@
 const canvas = document.getElementById('canvasTest');
 const ctx = canvas.getContext('2d');
 
-canvas.width = document.documentElement.clientWidth || document.body.clientWidth;
-canvas.height = document.documentElement.clientHeight || document.body.clientHeight;
+// canvas.width = document.documentElement.clientWidth || document.body.clientWidth;
+// canvas.height = document.documentElement.clientHeight || document.body.clientHeight;
 
 function rect_create(x, y, w, h, color, dx, dy) {
     let obj = {
@@ -64,7 +64,7 @@ gyroscope.addEventListener('reading', e => {
     gyroValue.x += gyroscope.x
     gyroValue.y += gyroscope.y
     gyroValue.z += gyroscope.z
-    document.getElementById("gyro").textContent = gyroValue.x + " " + gyroValue.y + " " + gyroValue.z
+    document.getElementById("gyro").innerHTML = gyroValue.x + "<br>" + gyroValue.y + "<br>" + gyroValue.z
     gameLoop()
 });
 gyroscope.start();
