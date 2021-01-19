@@ -3,6 +3,10 @@ const ctx = canvas.getContext('2d');
 
 const colors = ['#ccd5ae', '#e9edc9', '#fefae0', '#faedcd', '#d4a373']
 
+function getRandomValueFromList(list) {
+    return list[Math.floor(Math.random() * list.length)]
+}
+
 canvas.width = document.documentElement.clientWidth || document.body.clientWidth;
 canvas.height = document.documentElement.clientHeight || document.body.clientHeight;
 
@@ -51,7 +55,7 @@ function circle_draw(obj) {
     obj.x += 0.5
 
     // obj.x += Math.cos(frame / 30) * 20
-    // obj.y += Math.sin(frame / 30) * 7
+    obj.y += Math.sin(frame / 30) * 2
     ctx.closePath()
 }
 
