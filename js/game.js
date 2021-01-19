@@ -78,9 +78,9 @@ accelerometer.addEventListener('reading', e => {
     acceleValue.x += accelerometer.x
     acceleValue.y += accelerometer.y
     acceleValue.z += accelerometer.z
-    document.getElementById("accelero").innerHTML = Math.floor(gyroValue.x) + "<br>" + Math.floor(gyroValue.y) + "<br>" + Math.floor(gyroValue.z)
+    document.getElementById("accele").innerHTML = Math.floor(acceleValue.x) + "<br>" + Math.floor(acceleValue.y) + "<br>" + Math.floor(acceleValue.z)
 });
-gyroscope.start();
+accelerometer.start();
 
 
 setInterval(gameLoop, 1000 / 60)
