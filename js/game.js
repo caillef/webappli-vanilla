@@ -58,15 +58,29 @@ let gyroValue = {
     z: 0
 }
 gyroscope.addEventListener('reading', e => {
-    console.log("Angular velocity along the X-axis " + gyroscope.x);
-    console.log("Angular velocity along the Y-axis " + gyroscope.y);
-    console.log("Angular velocity along the Z-axis " + gyroscope.z);
     gyroValue.x += gyroscope.x
     gyroValue.y += gyroscope.y
     gyroValue.z += gyroscope.z
-    document.getElementById("gyro").innerHTML = gyroValue.x + "<br>" + gyroValue.y + "<br>" + gyroValue.z
-    gameLoop()
+    document.getElementById("gyro").innerHTML = Math.floor(gyroValue.x) + "<br>" + Math.floor(gyroValue.y) + "<br>" + Math.floor(gyroValue.z)
 });
 gyroscope.start();
 
-// setInterval(gameLoop, 1000 / 60)
+let accelerometer = new Accelerometer({
+    frequency: 60
+});
+
+let acceleValue = {
+    x: 0,
+    y: 0,
+    z: 0
+}
+accelerometer.addEventListener('reading', e => {
+    acceleValue.x += accelerometer.x
+    acceleValue.y += accelerometer.y
+    acceleValue.z += accelerometer.z
+    document.getElementById("accelero").innerHTML = Math.floor(gyroValue.x) + "<br>" + Math.floor(gyroValue.y) + "<br>" + Math.floor(gyroValue.z)
+});
+gyroscope.start();
+
+
+setInterval(gameLoop, 1000 / 60)
