@@ -42,8 +42,14 @@ function gameLoop() {
 }
 
 function rect_draw() {
+    // ctx.fillRect(this.x, this.y, this.w, this.h);
+
+    print("plop")
+    ctx.beginPath()
     ctx.fillStyle = this.color;
-    ctx.fillRect(this.x, this.y, this.w, this.h);
+    ctx.arc(this.x, this.y, 20, 0, 2 * Math.PI);
+    ctx.endPath()
+
     this.x += this.dx
     this.y += this.dy
 }
@@ -73,12 +79,6 @@ accelerometer.addEventListener('reading', e => {
     document.getElementById("accele").innerHTML = Math.floor(accelerometer.x) + "<br>" + Math.floor(accelerometer.y) + "<br>" + Math.floor(accelerometer.z)
 });
 accelerometer.start();
-
-let magSensor = new Magnetometer({frequency: 60});
-magSensor.addEventListener('reading', e => {
-    document.getElementById("accele").innerHTML = Math.floor(magSensor.x) + "<br>" + Math.floor(magSensor.y) + "<br>" + Math.floor(magSensor.z)
-});
-magSensor.start();
 
 
 setInterval(gameLoop, 1000 / 60)
