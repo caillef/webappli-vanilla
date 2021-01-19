@@ -32,6 +32,7 @@ function circle_create(x, y, r, color, dx, dy) {
 }
 
 let frame = 0
+
 function gameLoop() {
     // ctx.fillStyle = 'white';
     // ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -45,19 +46,16 @@ function circle_draw(obj) {
     ctx.beginPath()
     ctx.fillStyle = obj.color;
     ctx.lineWidth = 10
-    ctx.strokeStyle = 'black'
-    ctx.arc(obj.x, obj.y, obj.r, obj.offset + frame / 30, obj.offset + Math.PI + frame / 30);
-    ctx.stroke();
+    ctx.arc(obj.x, obj.y, obj.r, 0, 2 * Math.PI);
     ctx.fill();
-    obj.x += Math.cos(frame/30) * 20
-    obj.y += Math.sin(frame/30) * 7
+    obj.x += 0.5
+
+    // obj.x += Math.cos(frame / 30) * 20
+    // obj.y += Math.sin(frame / 30) * 7
     ctx.closePath()
 }
 
 function handleStart(evt) {
-    for (const obj of gameobjects)
-        obj.x += 10
-
     const touches = evt.changedTouches;
     for (var i = 0; i < touches.length; i++) {
         const x = touches[i].pageX
@@ -66,7 +64,9 @@ function handleStart(evt) {
         const color = colors[Math.floor(Math.random() * colors.length)]
         gameobjects.push(circle_create(x, y, r, color))
     }
-  }
+}
+
+canvas.addEventListener("touchstart", handleStart, false);
 
 init()
 setInterval(gameLoop, 1000 / 60)
