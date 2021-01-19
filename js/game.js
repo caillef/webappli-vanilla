@@ -52,11 +52,10 @@ let gyroscope = new Gyroscope({
     frequency: 60
 });
 
-let x = 0
 let gyroValue = {
-    x = 0,
-    y = 0,
-    z = 0
+    x: 0,
+    y: 0,
+    z: 0
 }
 gyroscope.addEventListener('reading', e => {
     console.log("Angular velocity along the X-axis " + gyroscope.x);
@@ -65,7 +64,7 @@ gyroscope.addEventListener('reading', e => {
     gyroValue.x += gyroscope.x
     gyroValue.y += gyroscope.y
     gyroValue.z += gyroscope.z
-    document.getElementById("pos").innerHTML = gyroValue.x + " " + gyroValue.y + " " + gyroValue.z
+    document.getElementById("gyro").textContent = gyroValue.x + " " + gyroValue.y + " " + gyroValue.z
     gameLoop()
 });
 gyroscope.start();
